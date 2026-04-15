@@ -1,0 +1,1117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="777 Checklist">
+    <title>777 Cleaning Checklist</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            -webkit-tap-highlight-color: transparent;
+        }
+        html, body {
+            width: 100%;
+            height: 100%;
+            overflow-x: hidden;
+        }
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 0;
+            margin: 0;
+        }
+        .navbar {
+            background: rgba(255, 255, 255, 0.98);
+            padding: 15px 15px;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            border-bottom: 3px solid #667eea;
+        }
+        .navbar-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 10px;
+        }
+        .navbar-brand {
+            font-size: 1.3em;
+            font-weight: 700;
+            color: #667eea;
+            white-space: nowrap;
+        }
+        .navbar-menu {
+            display: flex;
+            gap: 8px;
+            overflow-x: auto;
+            flex: 1;
+            scrollbar-width: none;
+        }
+        .navbar-menu::-webkit-scrollbar {
+            display: none;
+        }
+        .nav-btn {
+            padding: 8px 12px;
+            border: 2px solid transparent;
+            background: transparent;
+            color: #667eea;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s;
+            font-size: 0.85em;
+            white-space: nowrap;
+            flex-shrink: 0;
+        }
+        .nav-btn:active {
+            transform: scale(0.95);
+        }
+        .nav-btn:hover {
+            background: #667eea;
+            color: white;
+        }
+        .nav-btn.active {
+            background: #667eea;
+            color: white;
+        }
+        .nav-btn.noor {
+            background: #ffc107;
+            color: #333;
+            border-color: #ffc107;
+        }
+        .nav-btn.noor.active {
+            background: #ffb300;
+            color: #333;
+        }
+        .nav-btn.saj {
+            background: #ff6b6b;
+            color: white;
+            border-color: #ff6b6b;
+        }
+        .nav-btn.saj.active {
+            background: #ee5a6f;
+        }
+        .nav-btn.supplies {
+            background: #28a745;
+            color: white;
+            border-color: #28a745;
+        }
+        .nav-btn.supplies.active {
+            background: #218838;
+        }
+        .container {
+            max-width: 100%;
+            margin: 0 auto;
+            padding: 15px;
+        }
+        .header {
+            text-align: center;
+            color: white;
+            margin-bottom: 25px;
+            margin-top: 15px;
+        }
+        .header h1 {
+            font-size: 2em;
+            margin-bottom: 5px;
+            text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.3);
+            font-weight: 800;
+        }
+        .header p {
+            font-size: 0.9em;
+            opacity: 0.95;
+            font-weight: 300;
+        }
+        .page {
+            display: none;
+        }
+        .page.active {
+            display: block;
+            animation: fadeIn 0.3s ease-in;
+        }
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        .card {
+            background: white;
+            padding: 20px;
+            border-radius: 15px;
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.12);
+            margin-bottom: 20px;
+        }
+        .card h2 {
+            color: #333;
+            margin-bottom: 20px;
+            border-bottom: 4px solid #667eea;
+            padding-bottom: 12px;
+            font-size: 1.5em;
+        }
+        .card h3 {
+            color: #667eea;
+            margin-top: 20px;
+            margin-bottom: 15px;
+            font-size: 1.1em;
+        }
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 12px;
+            margin-bottom: 20px;
+        }
+        .stat-card {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 18px;
+            border-radius: 12px;
+            text-align: center;
+            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.2);
+        }
+        .stat-card h4 {
+            font-size: 0.8em;
+            opacity: 0.9;
+            margin-bottom: 8px;
+            font-weight: 600;
+        }
+        .stat-card .number {
+            font-size: 2.2em;
+            font-weight: 800;
+        }
+        .member-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 15px;
+            margin-top: 20px;
+        }
+        .member-card {
+            background: white;
+            padding: 18px;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+            border-left: 5px solid #667eea;
+        }
+        .member-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 12px;
+            padding-bottom: 12px;
+            border-bottom: 2px solid #e9ecef;
+        }
+        .member-name {
+            font-size: 1.1em;
+            font-weight: 700;
+            color: #333;
+        }
+        .member-icon {
+            font-size: 1.5em;
+            margin-right: 10px;
+        }
+        .progress-section {
+            margin-bottom: 15px;
+        }
+        .progress-label {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 6px;
+            color: #666;
+            font-weight: 600;
+            font-size: 0.9em;
+        }
+        .progress-bar-container {
+            background: #e9ecef;
+            border-radius: 8px;
+            overflow: hidden;
+            height: 30px;
+            box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+        .progress-bar {
+            background: linear-gradient(90deg, #667eea 0%, #764ba2 100%);
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+            transition: width 0.5s ease;
+            font-size: 0.85em;
+        }
+        .status-badge {
+            display: inline-block;
+            padding: 5px 12px;
+            border-radius: 15px;
+            font-size: 0.8em;
+            font-weight: 600;
+            margin-bottom: 12px;
+        }
+        .status-excellent {
+            background: #d4edda;
+            color: #155724;
+        }
+        .status-good {
+            background: #cfe2ff;
+            color: #084298;
+        }
+        .status-warning {
+            background: #fff3cd;
+            color: #856404;
+        }
+        .status-poor {
+            background: #f8d7da;
+            color: #721c24;
+        }
+        .task-item {
+            padding: 12px;
+            margin: 8px 0;
+            background: #f8f9fa;
+            border-left: 4px solid #667eea;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        .task-item.completed {
+            background: #d4edda;
+            border-left-color: #28a745;
+        }
+        .task-item.completed .task-text {
+            text-decoration: line-through;
+            color: #28a745;
+        }
+        .task-item.supply {
+            border-left-color: #28a745;
+            background: #f0fdf4;
+        }
+        .task-checkbox {
+            width: 22px;
+            height: 22px;
+            cursor: pointer;
+            accent-color: #667eea;
+            flex-shrink: 0;
+        }
+        .task-checkbox:disabled {
+            cursor: not-allowed;
+            opacity: 0.5;
+        }
+        .task-content {
+            flex: 1;
+        }
+        .task-text {
+            color: #333;
+            font-weight: 500;
+            font-size: 0.95em;
+            margin: 0;
+        }
+        .task-frequency {
+            font-size: 0.75em;
+            color: #666;
+            background: #e9ecef;
+            padding: 2px 8px;
+            border-radius: 10px;
+            display: inline-block;
+            margin-top: 4px;
+        }
+        .disabled-notice {
+            background: #fff3cd;
+            border-left: 4px solid #ffc107;
+            padding: 12px;
+            border-radius: 8px;
+            color: #856404;
+            margin-bottom: 15px;
+            font-weight: 500;
+            font-size: 0.9em;
+        }
+        .supply-notice {
+            background: #dcfce7;
+            border-left: 4px solid #28a745;
+            padding: 12px;
+            border-radius: 8px;
+            color: #166534;
+            margin-bottom: 15px;
+            font-weight: 500;
+            font-size: 0.9em;
+        }
+        .schedule-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 15px;
+            font-size: 0.9em;
+        }
+        .schedule-table th,
+        .schedule-table td {
+            padding: 12px;
+            text-align: left;
+            border: 1px solid #dee2e6;
+        }
+        .schedule-table th {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            font-weight: 600;
+        }
+        .schedule-table tr:nth-child(even) {
+            background: #f8f9fa;
+        }
+        .noor-assigned {
+            background: #fff3cd !important;
+            font-weight: 600;
+            color: #856404;
+        }
+        .leaderboard-item {
+            padding: 15px;
+            background: white;
+            border-radius: 12px;
+            border: 2px solid #e9ecef;
+            text-align: center;
+            margin-bottom: 12px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+        }
+        .leaderboard-item:hover {
+            border-color: #667eea;
+        }
+        .rank-badge {
+            font-size: 2em;
+            margin-bottom: 8px;
+        }
+        .member-rank-name {
+            font-size: 1.1em;
+            font-weight: 700;
+            color: #333;
+            margin: 8px 0;
+        }
+        .rank-percentage {
+            font-size: 1.8em;
+            font-weight: 800;
+            color: #667eea;
+            margin: 8px 0;
+        }
+        .rank-tasks {
+            font-size: 0.85em;
+            color: #666;
+        }
+        .consequence-card {
+            padding: 15px;
+            background: white;
+            border-radius: 12px;
+            border-left: 4px solid #667eea;
+            margin-bottom: 12px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+        }
+        .consequence-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 12px;
+        }
+        .consequence-member {
+            font-weight: 700;
+            font-size: 1em;
+            color: #333;
+        }
+        .consequence-status {
+            display: inline-block;
+            padding: 4px 10px;
+            border-radius: 15px;
+            font-size: 0.8em;
+            font-weight: 600;
+        }
+        .consequence-none {
+            background: #d4edda;
+            color: #155724;
+        }
+        .consequence-warning {
+            background: #fff3cd;
+            color: #856404;
+        }
+        .consequence-probation {
+            background: #ffe0b2;
+            color: #e65100;
+        }
+        .consequence-suspension {
+            background: #f8d7da;
+            color: #721c24;
+        }
+        .consequence-count {
+            color: #667eea;
+            font-size: 1.6em;
+            font-weight: 800;
+        }
+        .welcome-banner {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 25px;
+            border-radius: 15px;
+            margin-bottom: 25px;
+            text-align: center;
+            box-shadow: 0 8px 25px rgba(102, 126, 234, 0.2);
+        }
+        .welcome-banner h2 {
+            font-size: 1.6em;
+            margin-bottom: 8px;
+        }
+        .welcome-banner p {
+            font-size: 0.95em;
+            opacity: 0.95;
+        }
+        .supply-items-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 15px;
+            margin: 15px 0;
+        }
+        .supply-card {
+            background: white;
+            padding: 15px;
+            border-radius: 12px;
+            border-left: 5px solid #28a745;
+            box-shadow: 0 4px 12px rgba(40, 167, 69, 0.08);
+        }
+        .supply-card h4 {
+            color: #166534;
+            margin: 0 0 12px 0;
+            font-size: 1em;
+        }
+        .supply-item-list {
+            list-style: none;
+            padding: 0;
+        }
+        .supply-item-list li {
+            padding: 10px;
+            margin: 6px 0;
+            background: #f0fdf4;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 0.95em;
+        }
+        .supply-item-list input[type="checkbox"] {
+            width: 20px;
+            height: 20px;
+            cursor: pointer;
+            accent-color: #28a745;
+        }
+        .supply-item-list li.completed {
+            background: #dcfce7;
+            text-decoration: line-through;
+            color: #28a745;
+        }
+        .install-prompt {
+            background: #667eea;
+            color: white;
+            padding: 15px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            text-align: center;
+            font-weight: 600;
+            font-size: 0.95em;
+        }
+        .install-prompt button {
+            background: white;
+            color: #667eea;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 6px;
+            font-weight: 600;
+            cursor: pointer;
+            margin-top: 10px;
+        }
+        @media (max-width: 768px) {
+            .container {
+                padding: 12px;
+            }
+            .card {
+                padding: 15px;
+            }
+            .card h2 {
+                font-size: 1.3em;
+            }
+            .stats-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation Bar -->
+    <nav class="navbar">
+        <div class="navbar-content">
+            <div class="navbar-brand">🏠 777 Tasks</div>
+            <div class="navbar-menu">
+                <button class="nav-btn active" onclick="showPage('home')">📋 Tasks</button>
+                <button class="nav-btn supplies" onclick="showPage('supplies')">🛒 Supplies</button>
+                <button class="nav-btn noor" onclick="showPage('noor')">👨‍💼 NOOR</button>
+                <button class="nav-btn saj" onclick="showPage('supervisor')">👨‍⚖️ SAJ</button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Header -->
+    <div class="header">
+        <h1>777 Checklist</h1>
+        <p>Smart Household Management</p>
+    </div>
+
+    <div class="container">
+        <!-- Home Page -->
+        <div id="home" class="page active">
+            <div class="welcome-banner">
+                <h2>Welcome! 👋</h2>
+                <p>View your tasks and household progress</p>
+            </div>
+
+            <div class="card">
+                <h2>📊 Quick Stats</h2>
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <h4>Total</h4>
+                        <div class="number" id="total-tasks">0</div>
+                    </div>
+                    <div class="stat-card">
+                        <h4>Done</h4>
+                        <div class="number" id="total-completed">0</div>
+                    </div>
+                    <div class="stat-card">
+                        <h4>Pending</h4>
+                        <div class="number" id="total-pending">0</div>
+                    </div>
+                    <div class="stat-card">
+                        <h4>Progress</h4>
+                        <div class="number" id="overall-percent">0%</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card">
+                <h2>👥 Team Progress</h2>
+                <div class="member-grid" id="members-overview"></div>
+            </div>
+
+            <div class="card">
+                <h2>📅 Weekly Schedule</h2>
+                <table class="schedule-table">
+                    <thead>
+                        <tr>
+                            <th>Day</th>
+                            <th>Kitchen</th>
+                            <th>Bathroom</th>
+                        </tr>
+                    </thead>
+                    <tbody id="schedule-table"></tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- Supplies Page -->
+        <div id="supplies" class="page">
+            <div class="welcome-banner">
+                <h2>🛒 Supplies</h2>
+                <p>Track supply purchases</p>
+            </div>
+
+            <div class="supply-notice">
+                ✅ Mark items when you buy them!
+            </div>
+
+            <div class="card">
+                <h2>🛒 Shopping List</h2>
+                <div class="supply-items-grid" id="supplies-grid"></div>
+            </div>
+        </div>
+
+        <!-- NOOR Control Page -->
+        <div id="noor" class="page">
+            <div class="welcome-banner">
+                <h2>👨‍💼 NOOR Control</h2>
+                <p>Manage household tasks</p>
+            </div>
+
+            <div class="disabled-notice">
+                ✋ Only NOOR can update tasks here
+            </div>
+
+            <div class="card">
+                <h2>✅ Task Manager</h2>
+                <div id="noor-tasks-container"></div>
+            </div>
+        </div>
+
+        <!-- SAJ Supervisor Page -->
+        <div id="supervisor" class="page">
+            <div class="welcome-banner">
+                <h2>👨‍⚖️ SAJ Monitor</h2>
+                <p>Household oversight</p>
+            </div>
+
+            <div class="card">
+                <h2>📊 Stats</h2>
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <h4>Total</h4>
+                        <div class="number" id="saj-total-tasks">0</div>
+                    </div>
+                    <div class="stat-card">
+                        <h4>Done</h4>
+                        <div class="number" id="saj-completed-tasks">0</div>
+                    </div>
+                    <div class="stat-card">
+                        <h4>Pending</h4>
+                        <div class="number" id="saj-pending-tasks">0</div>
+                    </div>
+                    <div class="stat-card">
+                        <h4>Progress</h4>
+                        <div class="number" id="saj-overall-percent">0%</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card">
+                <h2>🏆 Leaderboard</h2>
+                <div id="leaderboard"></div>
+            </div>
+
+            <div class="card">
+                <h2>⚠️ Accountability</h2>
+                <div id="consequences-grid"></div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let tasks = [];
+        let supplies = {};
+        let consequences = {};
+
+        const weeklySchedule = [
+            { day: 'Mon', kitchen: '👨‍💼 NOOR', bathroom: 'ALI' },
+            { day: 'Tue', kitchen: '👨‍💼 NOOR', bathroom: 'Hassan' },
+            { day: 'Wed', kitchen: 'Dhruval', bathroom: 'Ramish' },
+            { day: 'Thu', kitchen: 'ALI', bathroom: 'Razi' },
+            { day: 'Fri', kitchen: 'Hassan', bathroom: 'Dhruval' },
+            { day: 'Sat', kitchen: 'Razi', bathroom: 'Hassan' },
+            { day: 'Sun', kitchen: 'Ramish', bathroom: 'ALI' }
+        ];
+
+        const members = ['NOOR', 'ALI', 'Hassan', 'Ramish', 'Razi', 'Dhruval'];
+
+        const memberEmojis = {
+            'NOOR': '👨‍💼',
+            'ALI': '👨',
+            'Hassan': '👨',
+            'Ramish': '👨',
+            'Razi': '👨',
+            'Dhruval': '👨'
+        };
+
+        const supplyAssignments = {
+            'NOOR': ['Bin Bags', 'Hand Wash'],
+            'ALI': ['Paper Towels', 'Surface Cleaner'],
+            'Hassan': ['Hapric/Towels', 'Disinfectant'],
+            'Ramish': ['Bin Bags', 'Glass Cleaner'],
+            'Razi': ['Hand Wash', 'Floor Cleaner'],
+            'Dhruval': ['Paper Towels', 'All-Purpose Cleaner']
+        };
+
+        function saveTasks() {
+            localStorage.setItem('cleaning-tasks-777', JSON.stringify(tasks));
+            localStorage.setItem('supplies-777', JSON.stringify(supplies));
+            localStorage.setItem('consequences-777', JSON.stringify(consequences));
+        }
+
+        function loadTasks() {
+            const saved = localStorage.getItem('cleaning-tasks-777');
+            const savedSupplies = localStorage.getItem('supplies-777');
+            const savedConsequences = localStorage.getItem('consequences-777');
+            
+            if (saved) {
+                tasks = JSON.parse(saved);
+            } else {
+                tasks = [
+                    { id: '1', member: 'NOOR', text: 'Kitchen Mon', frequency: 'weekly', category: 'kitchen', completed: false },
+                    { id: '2', member: 'NOOR', text: 'Kitchen Tue', frequency: 'weekly', category: 'kitchen', completed: false },
+                    { id: '3', member: 'NOOR', text: 'Coordination', frequency: 'daily', category: 'management', completed: false },
+                    { id: '4', member: 'ALI', text: 'Bathroom Mon', frequency: 'weekly', category: 'bathroom', completed: false },
+                    { id: '5', member: 'ALI', text: 'Kitchen Thu', frequency: 'weekly', category: 'kitchen', completed: false },
+                    { id: '6', member: 'ALI', text: 'Bathroom Sun', frequency: 'weekly', category: 'bathroom', completed: false },
+                    { id: '7', member: 'ALI', text: 'Room cleaning', frequency: 'daily', category: 'room', completed: false },
+                    { id: '8', member: 'Hassan', text: 'Bathroom Tue', frequency: 'weekly', category: 'bathroom', completed: false },
+                    { id: '9', member: 'Hassan', text: 'Kitchen Fri', frequency: 'weekly', category: 'kitchen', completed: false },
+                    { id: '10', member: 'Hassan', text: 'Bathroom Sat', frequency: 'weekly', category: 'bathroom', completed: false },
+                    { id: '11', member: 'Hassan', text: 'Room cleaning', frequency: 'daily', category: 'room', completed: false },
+                    { id: '12', member: 'Ramish', text: 'Bathroom Wed', frequency: 'weekly', category: 'bathroom', completed: false },
+                    { id: '13', member: 'Ramish', text: 'Kitchen Sun', frequency: 'weekly', category: 'kitchen', completed: false },
+                    { id: '14', member: 'Ramish', text: 'Hovering M/Th', frequency: 'weekly', category: 'hovering', completed: false },
+                    { id: '15', member: 'Ramish', text: 'Room cleaning', frequency: 'daily', category: 'room', completed: false },
+                    { id: '16', member: 'Razi', text: 'Bathroom Thu', frequency: 'weekly', category: 'bathroom', completed: false },
+                    { id: '17', member: 'Razi', text: 'Kitchen Sat', frequency: 'weekly', category: 'kitchen', completed: false },
+                    { id: '18', member: 'Razi', text: 'Hovering M/Th', frequency: 'weekly', category: 'hovering', completed: false },
+                    { id: '19', member: 'Razi', text: 'Room cleaning', frequency: 'daily', category: 'room', completed: false },
+                    { id: '20', member: 'Dhruval', text: 'Kitchen Wed', frequency: 'weekly', category: 'kitchen', completed: false },
+                    { id: '21', member: 'Dhruval', text: 'Bathroom Fri', frequency: 'weekly', category: 'bathroom', completed: false },
+                    { id: '22', member: 'Dhruval', text: 'Trash/Recycling', frequency: 'daily', category: 'other', completed: false },
+                    { id: '23', member: 'Dhruval', text: 'Room cleaning', frequency: 'daily', category: 'room', completed: false }
+                ];
+                saveTasks();
+            }
+
+            if (savedSupplies) {
+                supplies = JSON.parse(savedSupplies);
+            } else {
+                supplies = {};
+                members.forEach(member => {
+                    supplies[member] = {};
+                    supplyAssignments[member].forEach(item => {
+                        supplies[member][item] = false;
+                    });
+                });
+                saveTasks();
+            }
+
+            if (savedConsequences) {
+                consequences = JSON.parse(savedConsequences);
+            } else {
+                members.forEach(member => {
+                    consequences[member] = { missedTasks: 0, level: 'good' };
+                });
+                saveTasks();
+            }
+        }
+
+        function showPage(pageName) {
+            document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+            document.getElementById(pageName).classList.add('active');
+            
+            document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
+            event.target.classList.add('active');
+
+            loadTasks();
+
+            if (pageName === 'home') {
+                loadHomePage();
+            } else if (pageName === 'supplies') {
+                loadSuppliesPage();
+            } else if (pageName === 'noor') {
+                loadNoorPage();
+            } else if (pageName === 'supervisor') {
+                loadSupervisorPage();
+            }
+
+            window.scrollTo(0, 0);
+        }
+
+        function toggleTask(id) {
+            const task = tasks.find(t => t.id === id);
+            if (task) {
+                task.completed = !task.completed;
+                saveTasks();
+                loadNoorPage();
+                loadHomePage();
+                loadSupervisorPage();
+            }
+        }
+
+        function toggleSupply(member, supply) {
+            supplies[member][supply] = !supplies[member][supply];
+            saveTasks();
+            loadSuppliesPage();
+            loadNoorPage();
+        }
+
+        function loadHomePage() {
+            loadTasks();
+            updateOverviewStats();
+            loadMembersOverview();
+            loadSchedule();
+        }
+
+        function updateOverviewStats() {
+            const total = tasks.length;
+            const completed = tasks.filter(t => t.completed).length;
+            const pending = total - completed;
+            const percentage = total > 0 ? Math.round((completed / total) * 100) : 0;
+
+            document.getElementById('total-tasks').textContent = total;
+            document.getElementById('total-completed').textContent = completed;
+            document.getElementById('total-pending').textContent = pending;
+            document.getElementById('overall-percent').textContent = percentage + '%';
+        }
+
+        function loadMembersOverview() {
+            const container = document.getElementById('members-overview');
+            container.innerHTML = '';
+
+            members.forEach(member => {
+                const memberTasks = tasks.filter(t => t.member === member);
+                const completed = memberTasks.filter(t => t.completed).length;
+                const total = memberTasks.length;
+                const percentage = total > 0 ? Math.round((completed / total) * 100) : 0;
+
+                let statusClass = 'status-excellent';
+                let statusText = '⭐ Excellent';
+                if (percentage < 30) {
+                    statusClass = 'status-poor';
+                    statusText = '😔 Needs Help';
+                } else if (percentage < 60) {
+                    statusClass = 'status-warning';
+                    statusText = '⚠️ In Progress';
+                } else if (percentage < 90) {
+                    statusClass = 'status-good';
+                    statusText = '😊 Good';
+                }
+
+                const html = `
+                    <div class="member-card">
+                        <div class="member-header">
+                            <div>
+                                <span class="member-icon">${memberEmojis[member]}</span>
+                                <span class="member-name">${member}</span>
+                            </div>
+                            <span class="status-badge ${statusClass}">${statusText}</span>
+                        </div>
+                        <div class="progress-section">
+                            <div class="progress-label">
+                                <span>Done</span>
+                                <span>${completed}/${total}</span>
+                            </div>
+                            <div class="progress-bar-container">
+                                <div class="progress-bar" style="width: ${percentage}%">${percentage}%</div>
+                            </div>
+                        </div>
+                    </div>
+                `;
+
+                container.innerHTML += html;
+            });
+        }
+
+        function loadSchedule() {
+            const tbody = document.getElementById('schedule-table');
+            tbody.innerHTML = '';
+            weeklySchedule.forEach(row => {
+                const kitchenClass = row.kitchen.includes('NOOR') ? 'noor-assigned' : '';
+                tbody.innerHTML += `
+                    <tr>
+                        <td><strong>${row.day}</strong></td>
+                        <td class="${kitchenClass}">${row.kitchen}</td>
+                        <td>${row.bathroom}</td>
+                    </tr>
+                `;
+            });
+        }
+
+        function loadSuppliesPage() {
+            loadTasks();
+            const container = document.getElementById('supplies-grid');
+            container.innerHTML = '';
+
+            members.forEach(member => {
+                const memberSupplies = supplies[member] || {};
+                const completed = Object.values(memberSupplies).filter(v => v).length;
+                const total = Object.keys(memberSupplies).length;
+
+                let html = `
+                    <div class="supply-card">
+                        <h4>${memberEmojis[member]} ${member}</h4>
+                        <div style="margin-bottom: 10px; color: #666; font-size: 0.85em;">
+                            ${completed}/${total} bought
+                        </div>
+                        <div class="progress-bar-container" style="margin-bottom: 12px; height: 25px;">
+                            <div class="progress-bar" style="width: ${total > 0 ? (completed/total)*100 : 0}%; font-size: 0.8em;">${total > 0 ? Math.round((completed/total)*100) : 0}%</div>
+                        </div>
+                        <ul class="supply-item-list">
+                `;
+
+                Object.entries(memberSupplies).forEach(([supply, purchased]) => {
+                    html += `
+                        <li class="${purchased ? 'completed' : ''}">
+                            <input type="checkbox" ${purchased ? 'checked' : ''} onchange="toggleSupply('${member}', '${supply}')">
+                            <span>${supply}</span>
+                        </li>
+                    `;
+                });
+
+                html += `
+                        </ul>
+                    </div>
+                `;
+
+                container.innerHTML += html;
+            });
+        }
+
+        function loadNoorPage() {
+            loadTasks();
+            const container = document.getElementById('noor-tasks-container');
+            container.innerHTML = '';
+
+            const grouped = {};
+            tasks.forEach(task => {
+                if (!grouped[task.member]) {
+                    grouped[task.member] = [];
+                }
+                grouped[task.member].push(task);
+            });
+
+            members.forEach(member => {
+                if (grouped[member]) {
+                    let html = `<h3 style="margin-top: 15px; color: #667eea;">${memberEmojis[member]} ${member}</h3>`;
+
+                    grouped[member].forEach(task => {
+                        const categoryEmoji = {
+                            'kitchen': '🍳',
+                            'bathroom': '🚿',
+                            'hovering': '🧹',
+                            'room': '🛏️',
+                            'management': '🔧',
+                            'other': '📌'
+                        }[task.category] || '📌';
+
+                        html += `
+                            <div class="task-item ${task.completed ? 'completed' : ''}">
+                                <input type="checkbox" class="task-checkbox" ${task.completed ? 'checked' : ''} onchange="toggleTask('${task.id}')">
+                                <div class="task-content">
+                                    <div class="task-text">${task.text}</div>
+                                    <span class="task-frequency">${categoryEmoji} ${task.frequency}</span>
+                                </div>
+                            </div>
+                        `;
+                    });
+
+                    const memberSupplies = supplies[member] || {};
+                    if (Object.keys(memberSupplies).length > 0) {
+                        html += `<h3 style="margin-top: 15px; color: #28a745;">🛒 Supplies</h3>`;
+                        Object.entries(memberSupplies).forEach(([supply, purchased]) => {
+                            html += `
+                                <div class="task-item supply ${purchased ? 'completed' : ''}">
+                                    <input type="checkbox" class="task-checkbox" ${purchased ? 'checked' : ''} onchange="toggleSupply('${member}', '${supply}')">
+                                    <div class="task-content">
+                                        <div class="task-text">${supply}</div>
+                                        <span class="task-frequency">🛒 Supply</span>
+                                    </div>
+                                </div>
+                            `;
+                        });
+                    }
+
+                    container.innerHTML += html;
+                }
+            });
+        }
+
+        function loadSupervisorPage() {
+            loadTasks();
+            updateSupervisorStats();
+            loadLeaderboard();
+            loadConsequences();
+        }
+
+        function updateSupervisorStats() {
+            const total = tasks.length;
+            const completed = tasks.filter(t => t.completed).length;
+            const pending = total - completed;
+            const percentage = total > 0 ? Math.round((completed / total) * 100) : 0;
+
+            document.getElementById('saj-total-tasks').textContent = total;
+            document.getElementById('saj-completed-tasks').textContent = completed;
+            document.getElementById('saj-pending-tasks').textContent = pending;
+            document.getElementById('saj-overall-percent').textContent = percentage + '%';
+        }
+
+        function loadLeaderboard() {
+            const container = document.getElementById('leaderboard');
+            container.innerHTML = '';
+
+            const memberStats = {};
+            members.forEach(member => {
+                const memberTasks = tasks.filter(t => t.member === member);
+                const completed = memberTasks.filter(t => t.completed).length;
+                const total = memberTasks.length;
+                const percentage = total > 0 ? Math.round((completed / total) * 100) : 0;
+                memberStats[member] = { completed, total, percentage };
+            });
+
+            const sorted = Object.entries(memberStats).sort((a, b) => b[1].percentage - a[1].percentage);
+
+            sorted.forEach((entry, index) => {
+                const [member, stats] = entry;
+                const rank = index + 1;
+                let badge = '🏅';
+                if (rank === 1) badge = '🥇';
+                else if (rank === 2) badge = '🥈';
+                else if (rank === 3) badge = '🥉';
+
+                const html = `
+                    <div class="leaderboard-item">
+                        <div class="rank-badge">${badge}</div>
+                        <div class="member-rank-name">#${rank} ${member}</div>
+                        <div class="rank-percentage">${stats.percentage}%</div>
+                        <div class="rank-tasks">${stats.completed}/${stats.total} tasks</div>
+                    </div>
+                `;
+
+                container.innerHTML += html;
+            });
+        }
+
+        function loadConsequences() {
+            const container = document.getElementById('consequences-grid');
+            container.innerHTML = '';
+
+            members.forEach(member => {
+                const cons = consequences[member];
+                let levelClass = 'consequence-none';
+                let levelText = '✅ Good Standing';
+                let levelEmoji = '✅';
+
+                if (cons.level === 'warning') {
+                    levelClass = 'consequence-warning';
+                    levelText = '📢 Warning';
+                    levelEmoji = '⚠️';
+                } else if (cons.level === 'probation') {
+                    levelClass = 'consequence-probation';
+                    levelText = '⚠️ Probation';
+                    levelEmoji = '🚨';
+                } else if (cons.level === 'suspension') {
+                    levelClass = 'consequence-suspension';
+                    levelText = '❌ Suspension';
+                    levelEmoji = '🚫';
+                }
+
+                const html = `
+                    <div class="consequence-card">
+                        <div class="consequence-header">
+                            <span class="consequence-member">${memberEmojis[member]} ${member}</span>
+                            <span class="consequence-status ${levelClass}">${levelEmoji}</span>
+                        </div>
+                        <div style="margin-bottom: 10px;">
+                            <div style="color: #666; font-size: 0.85em; margin-bottom: 4px;">Missed</div>
+                            <div class="consequence-count">${cons.missedTasks}</div>
+                        </div>
+                        <div style="padding-top: 10px; border-top: 2px solid #e9ecef; color: #667eea; font-weight: 600; font-size: 0.9em;">
+                            ${levelText}
+                        </div>
+                    </div>
+                `;
+
+                container.innerHTML += html;
+            });
+        }
+
+        document.addEventListener('DOMContentLoaded', function() {
+            loadTasks();
+            loadHomePage();
+        });
+    </script>
+</body>
+</html>
